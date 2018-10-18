@@ -1,0 +1,919 @@
+Fast Structure code 
+
+### THIS CODE IS RUN ON THE DEAKIN CLUSTER
+
+
+plink —vcf populations.snps.vcf —allow-extra-chr —out POP4.snps
+
+## this makes .bed, .bim, .fam, log files
+
+## First we run FastStructure analysis over multiple Ks using a simple prior (type in command)
+nohup python /opt/packages/fastStructure/structure.py -K2 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K2 --prior=simple --format=bed --full &
+nohup python /opt/packages/fastStructure/structure.py -K3 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K3 --prior=simple --format=bed --full &
+nohup python /opt/packages/fastStructure/structure.py -K4 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K4 --prior=simple --format=bed --full &
+nohup python /opt/packages/fastStructure/structure.py -K5 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K5 --prior=simple --format=bed --full &
+nohup python /opt/packages/fastStructure/structure.py -K6 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K6 --prior=simple --format=bed --full &
+nohup python /opt/packages/fastStructure/structure.py -K7 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K7 --prior=simple --format=bed --full &
+nohup python /opt/packages/fastStructure/structure.py -K8 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K8 --prior=simple --format=bed --full &
+nohup python /opt/packages/fastStructure/structure.py -K9 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K9 --prior=simple --format=bed --full &
+nohup python /opt/packages/fastStructure/structure.py -K10 -—input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps —-output /home/nmbromle/platypus/POP4/fast_struc/K K10 --prior=simple --format=bed --full &
+
+Choose K for simple prior:
+python /opt/packages/fastStructure/chooseK.py —-input=/home/nmbromle/platypus/POP4/fast_struc/K* >> /home/nmbromle/platypus/POP4/fast_struc/K_all_samples.txt
+
+output:
+Model complexity that maximizes marginal likelihood = 9
+Model components used to explain structure in data = 2
+
+##FastStructure Logistic Prior
+
+## Run the faststructrure analysis over the K identified from the simple prior (however we are running all to compare) output from simple prior moved into 'simple' folder to keep logistic output separate from simple to ensure 'choose K' works
+## above code run 100 times for each K from K2-K10 (in different folders called K2-K10) using nohup bash command, each run named r1-100
+
+single run command: nohup python /opt/packages/fastStructure/structure.py —K2 --input /home/nmbromle/platypus/POP4/fast_struc/POP1.snps --output /home/nmbromle/platypus/POP4/fast_struc/K2/r1-K2 --prior=logistic --format=bed --full &
+
+
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py —K2 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K2/r$i-K2 --prior=logistic --format=bed --full ; done' &
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py -K3 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K3/r$i-K3 --prior=logistic --format=bed --full ; done' &
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py -K4 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K4/r$i-K4 --prior=logistic --format=bed --full ; done' &
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py -K5 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K5/r$i-K5 --prior=logistic --format=bed --full ; done' &
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py -K6 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K6/r$i-K6 --prior=logistic --format=bed --full ; done' &
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py -K7 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K7/r$i-K7 --prior=logistic --format=bed --full ; done' &
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py -K8 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K8/r$i-K8 --prior=logistic --format=bed --full ; done' &
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py -K9 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K9/r$i-K9 --prior=logistic --format=bed --full ; done' &
+nohup bash -c 'for ((i=1;i<=100;i++)); do python /opt/packages/fastStructure/structure.py -K10 --input /home/nmbromle/platypus/POP4/fast_struc/POP4.snps --output /home/nmbromle/platypus/POP4/fast_struc/K10/r$i-K10 --prior=logistic --format=bed --full ; done' &
+
+## NOW use vcftools to create indvDP.txt files
+
+vcftools --vcf populations.snps.vcf --depth -c > POP4.indvDP.txt
+
+## NEXT for margLike files. NOTE: RUN FOLLOWING CODE FOR K2-K10 (change value after K each time) run in fast_struc folder, make sure have K# folder in Logistic 
+
+grep “Marginal Likelihood = “ ~/platypus/POP4/fast_struc/K2/*2.log | perl -pe ’s/:Marginal Likelihood = /\t’/ > ~/platypus/POP4/fast_struc/Logistic/K2/repeat_margLike.txt
+
+(Note- no choose K for Logistic outputs)
+
+## THE FILE Red_pop_29Aug.txt is a file with sample name and location 
+
+## THE FOLLOWING CODE IS RUN ON R ON THE CLUSTER
+
+
+source("~/bin/fastStructure-master/fastStructurePlotting_functions.R")
+
+samps <- read.table('~/platypus/POP4/fast_struc/POP4.indvDP.txt', sep = '\t', header = TRUE)
+
+samps$sord <- 1:nrow(samps)
+
+pops <- read.table('~/platypus/POP4/fast_struc/Red_pop_29Aug.txt', sep = '\t', header = TRUE)
+
+samps <- merge(samps, pops, by.x ="INDV", by.y = "Sample", all.x = TRUE, all.y = FALSE)
+
+samps <- samps[order(samps[,'sord']),]
+
+## FOLLOWING CODE SHOULD BE CHANGED DEPENDING ON WHICH K (e.g. K2, K3, K4, K5, K6) (in col names step need same # of p's as K)
+
+likes=read.table("~/platypus/POP4/fast_struc/Logistic/K2/repeat_margLike.txt")
+
+likes[,1]=sub(".log","",likes[,1])
+
+names(likes) <- c('run', 'mxLike')
+
+mnK2 <- averageBest(likes, top = 25)
+
+colnames(mnK2) <- c('p1', 'p2')
+
+K2 <- data.frame(samps$INDV, samps$Pop, samps$sord, samps$PopOrd, mnK2)
+
+
+colnames(K2) <- c('id', 'pop', 'ord', 'gord', 'p1', 'p2')
+
+write.table(K2, file = '~/platypus/POP4/fast_struc/Logistic/K2/K2_data-for-graphing.txt', col.names = TRUE, row.names = FALSE, sep = '\t')
+
+
+likes <- likes[order(-likes[,'mxLike']),]
+
+## FOLLOWING CODE RUN IN R ON DESKTOP
+
+setwd('/Users/Nbromley/Desktop/fast_struc')
+library(ggplot2)
+library(reshape2)
+K2STACKS <- read.table("K2_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K2STACKS$gord <- ifelse(nchar(K2STACKS[1:length(K2STACKS[,1]),'gord']) == 1,
+                        paste('0',K2STACKS$gord, sep = ''), as.character(K2STACKS$gord))
+
+#transform the data from wide to long form
+K2STACKS <- melt(K2STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K2STACKS <- K2STACKS[order(K2STACKS[,'gord'], K2STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K2STACKS$uniq <- rep(1:360, each =2)
+
+
+vlines2 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K2STACKS$gord)))/2),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines2 <- vlines2[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K2plot <- ggplot(K2STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines2, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+K2plot <- ggplot(K2STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines2, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+K3STACKS <- read.table("K3_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K3STACKS$gord <- ifelse(nchar(K3STACKS[1:length(K3STACKS[,1]),'gord']) == 1,
+                        paste('0',K3STACKS$gord, sep = ''), as.character(K3STACKS$gord))
+
+#transform the data from wide to long form
+K3STACKS <- melt(K3STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K3STACKS <- K3STACKS[order(K3STACKS[,'gord'], K3STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K3STACKS$uniq <- rep(1:360, each =3)
+
+
+vlines3 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K3STACKS$gord)))/3),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines3 <- vlines3[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K3plot <- ggplot(K3STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines3, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K3plot <- ggplot(K3STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33])) +
+                               geom_bar(stat = 'identity', width = 1) +
+                               geom_vline(data = vlines3, aes(xintercept = x, colour = as.factor(grp))) +
+                               scale_colour_manual(values= c('grey', 'black')) +
+                               scale_x_discrete(labels = xlabels) +
+                               scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+                               theme(panel.background = element_blank(),
+                               panel.grid = element_blank(),
+                               legend.position = 'blank',
+                               axis.text.x = element_text(angle = 90, size = 18),
+                               axis.title.x = element_blank(),
+                               axis.ticks.x = element_blank())
+
+K4STACKS <- read.table("K4_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K4STACKS$gord <- ifelse(nchar(K4STACKS[1:length(K4STACKS[,1]),'gord']) == 1,
+                        paste('0',K4STACKS$gord, sep = ''), as.character(K4STACKS$gord))
+
+#transform the data from wide to long form
+K4STACKS <- melt(K4STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K4STACKS <- K4STACKS[order(K4STACKS[,'gord'], K4STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K4STACKS$uniq <- rep(1:360, each =4)
+
+
+vlines4 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K4STACKS$gord)))/4),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines4 <- vlines4[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K4plot <- ggplot(K4STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines4, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K4plot <- ggplot(K4STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45])) +
+                               geom_bar(stat = 'identity', width = 1) +
+                               geom_vline(data = vlines4, aes(xintercept = x, colour = as.factor(grp))) +
+                               scale_colour_manual(values= c('grey', 'black')) +
+                               scale_x_discrete(labels = xlabels) +
+                               scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+                               theme(panel.background = element_blank(),
+                               panel.grid = element_blank(),
+                               legend.position = 'blank',
+                               axis.text.x = element_text(angle = 90, size = 18),
+                               axis.title.x = element_blank(),
+                               axis.ticks.x = element_blank())  
+
+K5STACKS <- read.table("K5_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K5STACKS$gord <- ifelse(nchar(K5STACKS[1:length(K5STACKS[,1]),'gord']) == 1,
+                        paste('0',K5STACKS$gord, sep = ''), as.character(K5STACKS$gord))
+
+#transform the data from wide to long form
+K5STACKS <- melt(K5STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K5STACKS <- K5STACKS[order(K5STACKS[,'gord'], K5STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K5STACKS$uniq <- rep(1:360, each =5)
+
+
+vlines5 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K5STACKS$gord)))/5),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines5 <- vlines5[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K5plot <- ggplot(K5STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines5, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K5plot <- ggplot(K5STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines5, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank()) 
+
+K6STACKS <- read.table("K6_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K6STACKS$gord <- ifelse(nchar(K6STACKS[1:length(K6STACKS[,1]),'gord']) == 1,
+                        paste('0',K6STACKS$gord, sep = ''), as.character(K6STACKS$gord))
+
+#transform the data from wide to long form
+K6STACKS <- melt(K6STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K6STACKS <- K6STACKS[order(K6STACKS[,'gord'], K6STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K6STACKS$uniq <- rep(1:360, each =6)
+
+
+vlines6 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K6STACKS$gord)))/6),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines6 <- vlines6[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K6plot <- ggplot(K6STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines6, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K6plot <- ggplot(K6STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines6, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+K7STACKS <- read.table("K7_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K7STACKS$gord <- ifelse(nchar(K7STACKS[1:length(K7STACKS[,1]),'gord']) == 1,
+                        paste('0',K7STACKS$gord, sep = ''), as.character(K7STACKS$gord))
+
+#transform the data from wide to long form
+K7STACKS <- melt(K7STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K7STACKS <- K7STACKS[order(K7STACKS[,'gord'], K7STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K7STACKS$uniq <- rep(1:360, each =7)
+
+
+vlines7 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K7STACKS$gord)))/7),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines7 <- vlines7[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K7plot <- ggplot(K7STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40], "p7" = cols[25])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines7, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K7plot <- ggplot(K7STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40], "p7" = cols[25])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines7, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+K8STACKS <- read.table("K8_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K8STACKS$gord <- ifelse(nchar(K8STACKS[1:length(K8STACKS[,1]),'gord']) == 1,
+                        paste('0',K8STACKS$gord, sep = ''), as.character(K8STACKS$gord))
+
+#transform the data from wide to long form
+K8STACKS <- melt(K8STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K8STACKS <- K8STACKS[order(K8STACKS[,'gord'], K8STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K8STACKS$uniq <- rep(1:360, each =8)
+
+
+vlines8 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K8STACKS$gord)))/8),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines8 <- vlines8[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K8plot <- ggplot(K8STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40], "p7" = cols[25], "p8" = cols[15])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines8, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K8plot <- ggplot(K8STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40], "p7" = cols[25], "p8" = cols[15])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines8, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank()) 
+
+K9STACKS <- read.table("K9_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K9STACKS$gord <- ifelse(nchar(K9STACKS[1:length(K9STACKS[,1]),'gord']) == 1,
+                        paste('0',K9STACKS$gord, sep = ''), as.character(K9STACKS$gord))
+
+#transform the data from wide to long form
+K9STACKS <- melt(K9STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K9STACKS <- K9STACKS[order(K9STACKS[,'gord'], K9STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K9STACKS$uniq <- rep(1:360, each =9)
+
+
+vlines9 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K9STACKS$gord)))/9),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines9 <- vlines9[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K9plot <- ggplot(K9STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40], "p7" = cols[25], "p8" = cols[15], "p9" = cols[37])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines9, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K9plot <- ggplot(K9STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40], "p7" = cols[25], "p8" = cols[15], "p9" = cols[37])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines9, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+K10STACKS <- read.table("K10_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K10STACKS$gord <- ifelse(nchar(K10STACKS[1:length(K10STACKS[,1]),'gord']) == 1,
+                         paste('0',K10STACKS$gord, sep = ''), as.character(K10STACKS$gord))
+
+#transform the data from wide to long form
+K10STACKS <- melt(K10STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K10STACKS <- K10STACKS[order(K10STACKS[,'gord'], K10STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K10STACKS$uniq <- rep(1:360, each =10)
+
+
+vlines10 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K10STACKS$gord)))/10),
+                       grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines10 <- vlines10[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K10plot <- ggplot(K10STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40], "p7" = cols[25], "p8" = cols[15], "p9" = cols[37], "p10" = cols[21])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines10, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K10plot <- ggplot(K10STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = cols[30], "p2" = cols[1], "p3" = cols[33], "p4" = cols[45], "p5" = cols[4], "p6" = cols[40], "p7" = cols[25], "p8" = cols[15], "p9" = cols[37], "p10" = cols[21])) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines10, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())   
+
+
+-----------------------------------------------------------------------------------------------------
+
+To plot with brighter colours (just K5 and K8):
+
+        
+K5STACKS <- read.table("K5_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K5STACKS$gord <- ifelse(nchar(K5STACKS[1:length(K5STACKS[,1]),'gord']) == 1,
+                        paste('0',K5STACKS$gord, sep = ''), as.character(K5STACKS$gord))
+
+#transform the data from wide to long form
+K5STACKS <- melt(K5STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K5STACKS <- K5STACKS[order(K5STACKS[,'gord'], K5STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K5STACKS$uniq <- rep(1:360, each =5)
+
+
+vlines5 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K5STACKS$gord)))/5),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines5 <- vlines5[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K5plot <- ggplot(K5STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = "red", "p2" = "blue", "p3" = "yellow", "p4" = "green", "p5" = "purple")) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines5, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K5plot <- ggplot(K5STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = "red", "p2" = "blue", "p3" = "yellow", "p4" = "green", "p5" = "purple")) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines5, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())   
+        
+
+
+K8STACKS <- read.table("K8_data_for_graphing.txt", sep = '\t', header = TRUE)
+
+#adding 0s to the front of the gord numbers
+K8STACKS$gord <- ifelse(nchar(K8STACKS[1:length(K8STACKS[,1]),'gord']) == 1,
+                        paste('0',K8STACKS$gord, sep = ''), as.character(K8STACKS$gord))
+
+#transform the data from wide to long form
+K8STACKS <- melt(K8STACKS, id=c('id', 'pop', 'ord', 'gord'))
+
+#order by gord
+K8STACKS <- K8STACKS[order(K8STACKS[,'gord'], K8STACKS[,'id']),]
+
+#they are already ordered by gord (geographic order)
+#produce unique numbers for each of the samples (change the each= number and vlines depending on the number of K)
+K8STACKS$uniq <- rep(1:360, each =8)
+
+
+vlines8 <- data.frame(x = as.numeric(cumsum(summary(as.factor(K8STACKS$gord)))/8),
+                      grp = c(1,1,1,1,1,1,1))
+vlines.palette <- c('grey', 'black')
+vlines8 <- vlines8[-7,]
+
+# This is a simple function that will be used to generate equally spaced hues
+# around a colour wheel, so that the graph is easy to look at.
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length=n+1)
+  hcl(h=hues, l=65, c=100)[1:n]
+}
+
+require(scales)
+cols = alpha(gg_color_hue(50), 0.4)
+plot(1:50, pch=16, cex=2, col=cols)
+
+#each '' is for an individual
+
+xlabels <- c('Yarra', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Western Port', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Yarra (Olinda)', '','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Maribyrnong', '','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','',
+             'Wimmera', '','','','','','','','','','','','','','','',
+             'Dandenong','','','','','','','','','','','','','','','','','','','','',
+             'Werribee', '','','','','','','','','','','','','','','','','','')
+
+# These numbers correspond to different colours. Make sure vlines lines up with previous code.
+K8plot <- ggplot(K8STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = "red", "p2" = "blue", "p3" = "yellow", "p4" = "green", "p5" = "purple", "p6" = "lightblue", "p7" = "orange", "p8" = "darkgreen")) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines8, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank())
+
+
+
+K8plot <- ggplot(K8STACKS, aes(uniq, value, fill = variable)) +
+  scale_fill_manual(values = c("p1" = "red", "p2" = "blue", "p3" = "yellow", "p4" = "green", "p5" = "purple", "p6" = "lightblue", "p7" = "orange", "p8" = "darkgreen")) +
+  geom_bar(stat = 'identity', width = 1) +
+  geom_vline(data = vlines8, aes(xintercept = x, colour = as.factor(grp))) +
+  scale_colour_manual(values= c('grey', 'black')) +
+  scale_x_discrete(labels = xlabels) +
+  scale_y_continuous(name="", breaks= NULL, limits=c(0,1.01)) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = 'blank',
+        axis.text.x = element_text(angle = 90, size = 18),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank()) 
